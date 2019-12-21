@@ -51,13 +51,30 @@ module.exports = {
                 },
             }
         },
+        UPDATE_WINNER:{
+            SUCCESS:{
+                CODE: 200,
+                JSON:{
+                    status: 1,
+                    message:'winner updated successfully',
+                    data: null
+                },
+            },
+            FAILURE:{
+                CODE: 200,
+                JSON:{
+                    status: -6,
+                    message:'there was error to update the winner',
+                },
+            }
+        },
     },
     ERRORS: {
-        CONNECTION_ERROR: {
+        DB_ERROR: {
             CODE: 503,
             JSON:{
                 status: -2,
-                message:'Error Establishing a Database Connection',
+                message:'DB Error: ',
             }
         },
         MISSING_PARAMS: {
@@ -67,5 +84,12 @@ module.exports = {
                 message:'All API parameters must be set',
             },
         },
+        DOC_NOT_FOUND:{
+            CODE: 404,
+            JSON: {
+                status: -7,
+                message: "operation failed document not found",
+            }
+        }
     }
-}
+};
