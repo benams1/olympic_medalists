@@ -68,6 +68,22 @@ module.exports = {
                 },
             }
         },
+        DELETE_WINNER:{
+            SUCCESS:{
+                CODE: 200,
+                JSON:{
+                    status: 1,
+                    message:'successfully deleted winner',
+                },
+            },
+            FAILURE:{
+                CODE: 404,
+                JSON:{
+                    status: -8,
+                    message:'winner is not found',
+                },
+            }
+        },
     },
     ERRORS: {
         DB_ERROR: {

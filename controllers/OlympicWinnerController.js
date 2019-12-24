@@ -63,6 +63,7 @@ class OlympicWinnerController {
                 }
             })
             .catch((err) =>{
+                console.log('error occurred - getAllWinners: ',err);
                 DBErrorHandler(res,err);
             });
     }
@@ -94,6 +95,7 @@ class OlympicWinnerController {
                 }
             })
             .catch((err) => {
+                console.log('error occurred - getAllWinners: ',err);
                 DBErrorHandler(res, err)
             });
     }
@@ -172,40 +174,31 @@ class OlympicWinnerController {
                         responses.ERRORS.DOC_NOT_FOUND.CODE,
                         responses.ERRORS.DOC_NOT_FOUND.JSON);
                 }
-                    // else {
-                    //     //if we didn't found document
-                    //     return responseClient(res,
-                    //         responses.OPERATIONS.UPDATE_WINNER.FAILURE.CODE,
-                    //         responses.OPERATIONS.UPDATE_WINNER.FAILURE.JSON);
-                    // }
-
-                // if(result){
-                //     if(result.nModified !== 0){
-                //         let response = responses.OPERATIONS.UPDATE_WINNER.SUCCESS.JSON;
-                //         let code = responses.OPERATIONS.UPDATE_WINNER.SUCCESS.CODE;
-                //         responseClient(res, code, response);
-                //     }
-                //     else {
-                //
-                //     }
-                // }
-                // else{
-                //     responseClient(res,
-                //         responses.OPERATIONS.UPDATE_WINNER.FAILURE.CODE,
-                //         responses.OPERATIONS.UPDATE_WINNER.FAILURE.JSON
-                //     );
-                // }
-            })
+                 })
             .catch((err)=>{
-                console.log('error occurred - addNewWinner: ',err);
+                console.log('error occurred - updateWinner: ',err);
                 DBErrorHandler(res,err);
             })
     }
     async deleteWinner(req,res){
-
-    }
-    async deleteAllWinners(req, res){
-        //going to log and response successfully
+        const { name = null } = req.body;
+        if(name === null){
+            responseClient(res, responses.ERRORS.MISSING_PARAMS.CODE, responses.ERRORS.MISSING_PARAMS.JSON);
+        }
+        await mongoose.connect(url, options)
+            .then(async ()=>{
+                const result = await winnerModel.deleteOne({name: name});
+                if(result && result.n == 1){
+                    responseClient(res,responses.OPERATIONS.DELETE_WINNER.SUCCESS.CODE,responses.OPERATIONS.DELETE_WINNER.SUCCESS.JSON);
+                }
+                else{
+                    responseClient(res,responses.OPERATIONS.DELETE_WINNER.FAILURE.CODE,responses.OPERATIONS.DELETE_WINNER.FAILURE.JSON);
+                }
+            })
+            .catch(err => {
+                console.log('error occurred - updateWinner: ',err);
+                DBErrorHandler(res,err);
+            });
     }
 }
 
